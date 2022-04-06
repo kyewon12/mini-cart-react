@@ -5,12 +5,19 @@ import CartList from './component/CartList';
 import ProductList from './component/ProductList';
 
 function App() {
+    const initialCartItem = localStorage.getItem('cartState')
+        ? JSON.parse(localStorage.getItem('cartState'))
+        : [];
     const [productItems, setProductItems] = useState([]);
-    const [cartItems, setCartItems] = useState([]);
+    const [cartItems, setCartItems] = useState(initialCartItem);
     const [isCartOpen, setIsCartOpen] = useState(false);
 
     const toggleCart = () => {
         setIsCartOpen((prev) => !prev);
+    };
+
+    const saveToLocalStorage = () => {
+        localStorage.setItem('cartState', JSON.stringify(cartItems));
     };
 
     useEffect(() => {
@@ -124,16 +131,16 @@ function App() {
                                         .toLocaleString() + '원'}
                                 </p>
                             </div>
-                            <a
+                            <p
                                 id="payment-btn"
-                                href="./"
                                 className="flex items-center justify-center rounded-md border border-transparent bg-sky-400 px-6 py-3 mt-6 font-medium text-white shadow-sm hover:bg-sky-500"
+                                onClick={saveToLocalStorage}
                             >
                                 결제하기
-                            </a>
+                            </p>
                             <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                                 <p>
-                                    또는
+                                    또는{' '}
                                     <button
                                         type="button"
                                         className="font-medium text-sky-400 hover:text-sky-500"
